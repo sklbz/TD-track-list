@@ -23,7 +23,9 @@ pub fn App() -> impl IntoView {
             let s = result
                 .as_string()
                 .unwrap_or_else(|| "Command failed".to_string());
-            println!("{}", s);
+            if s.is_empty() {
+                panic!("Command failed");
+            }
             set_text.set(s);
         }
     });
