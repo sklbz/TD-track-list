@@ -2,6 +2,7 @@ use crate::progress_bar::ProgressBar;
 use crate::todo_element::CheckboxWithLabel;
 use crate::todo_element::Collapse;
 use leptos::prelude::*;
+use leptos::task::spawn_local;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
@@ -11,20 +12,30 @@ extern "C" {
     async fn invoke(cmd: &str, args: JsValue) -> JsValue;
 }
 
-#[derive(Serialize, Deserialize)]
-struct GreetArgs<'a> {
-    name: &'a str,
-}
-
 #[component]
 pub fn App() -> impl IntoView {
+    let (text, set_text) = signal(String::new());
+
+    spawn_local({
+        let set_text = set_text.clone();
+        async move {
+            let result = invoke("test_command", wasm_bindgen::JsValue::NULL).await;
+            let s = result
+                .as_string()
+                .unwrap_or_else(|| "Command failed".to_string());
+            println!("{}", s);
+            set_text.set(s);
+        }
+    });
+
     view! {
         <main>
             <CheckboxWithLabel label="test".to_string() />
             <CheckboxWithLabel label="test".to_string() />
             <CheckboxWithLabel label="test".to_string() />
             <Collapse title="TD 1".to_string()>
-                <CheckboxWithLabel label="test".to_string() />
+                // <CheckboxWithLabel label="test".to_string() />
+                {text.get()}
             </Collapse>
         </main>
         <ProgressBar percentage=0.618f32/>

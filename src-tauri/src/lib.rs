@@ -1,4 +1,5 @@
 use crate::commands::get_task_state;
+use crate::commands::test_command;
 use tauri::{generate_context, generate_handler, Manager};
 use tauri_plugin_opener::init;
 use tauri_plugin_store::{Builder, StoreExt};
@@ -27,11 +28,11 @@ pub fn run() {
             // so your following `store` calls (from both Rust and JS)
             // will reuse the same store.
 
-            let store = app.store("store.json")?;
+            // let store = app.store("store.json")?;
 
             Ok(())
         })
-        .invoke_handler(generate_handler![get_task_state])
+        .invoke_handler(generate_handler![get_task_state, test_command])
         .run(generate_context!())
         .expect("error while running tauri application");
 }

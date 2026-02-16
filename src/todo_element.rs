@@ -20,6 +20,7 @@ pub fn Collapse(title: String, children: Children) -> impl IntoView {
               <div class="collapse-title font-semibold">{title}</div>
               <div class="collapse-content text-sm">
                 {children()}
+
               </div>
         </div>
     }
