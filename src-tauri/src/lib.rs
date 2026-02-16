@@ -4,6 +4,7 @@ use tauri_plugin_opener::init;
 use tauri_plugin_store::{Builder, StoreExt};
 
 mod commands;
+mod structure;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
