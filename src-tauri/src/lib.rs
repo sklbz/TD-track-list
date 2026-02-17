@@ -2,7 +2,7 @@ use crate::commands::get_task_state;
 use crate::commands::test_command;
 use tauri::{generate_context, generate_handler, Manager};
 use tauri_plugin_opener::init;
-use tauri_plugin_store::{Builder, StoreExt};
+use tauri_plugin_store::Builder;
 
 mod commands;
 mod structure;

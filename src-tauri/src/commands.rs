@@ -1,4 +1,9 @@
-use crate::structure::TD;
+use std::{
+    fs::{read_to_string, write},
+    path::Path,
+};
+
+use crate::structure::{TDList, TD};
 
 #[tauri::command]
 pub fn get_task_state(_td: u32, _exercice: u32) {
@@ -18,11 +23,37 @@ pub fn test_command() -> String {
         lvl3o: 1,
     };
 
-    let json = serde_json::to_string_pretty(&td).expect("Failed to serialize");
+    save_td(td);
 
-    json
+    let td_list = get_td_list();
+    match serde_json::to_string_pretty(&td_list) {
+        Ok(json) => json,
+        Err(e) => e.to_string(),
+    }
 }
 
 fn save_td(td: TD) {
-    let mut td_list
+    let mut td_list: TDList = get_td_list();
+    td_list.tds.push(td);
+    let json = match serde_json::to_string_pretty(&td_list) {
+        Ok(json) => json,
+        Err(e) => e.to_string(),
+    };
+    match write("td.json", json) {
+        Ok(_) => println!("Successfully wrote to file"),
+        Err(e) => println!("Failed to write to file: {}", e),
+    };
+}
+
+fn get_td_list() -> TDList {
+    let path = Path::new("/home/sklbz/.config/td-track/td.json");
+    let raw_data = match read_to_string(path) {
+        Ok(data) => data,
+        Err(e) => e.to_string(),
+    };
+    let td_list: TDList = match serde_json::from_str(&raw_data) {
+        Ok(data) => data,
+        Err(_) => TDList { tds: Vec::new() },
+    };
+    td_list
 }

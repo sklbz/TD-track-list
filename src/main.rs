@@ -1,5 +1,6 @@
 mod app;
 mod progress_bar;
+mod td;
 mod todo_element;
 
 use app::*;
