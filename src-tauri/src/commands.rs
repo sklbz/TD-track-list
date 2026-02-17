@@ -39,7 +39,9 @@ fn save_td(td: TD) {
         Ok(json) => json,
         Err(e) => e.to_string(),
     };
-    match write("td.json", json) {
+
+    let path = Path::new("/home/sklbz/.config/td-track/td.json");
+    match write(path, json) {
         Ok(_) => println!("Successfully wrote to file"),
         Err(e) => println!("Failed to write to file: {}", e),
     };
