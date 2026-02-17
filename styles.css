@@ -27,6 +27,16 @@
   flex-direction: column;
 }
 
+.content-start:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  align-content: flex-start;
+}
+
+.justify-start:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  justify-content: flex-start;
+}
+
 .border:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
 
   border-style: var(--tw-border-style);
@@ -222,17 +232,13 @@ main:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
 
   display: flex;
 
-  justify-content: center;
-
   flex-orientation: row;
 
-  align-items: center;
+  padding-left: 2rem;
 
-  margin: 2rem 10%;
+  gap: .75rem;
 
-  gap: 1rem;
-
-  height: 2rem;
+  height: 1.5rem;
 }
 
 .checkbox-label:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
@@ -240,8 +246,6 @@ main:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
   position: relative;
 
   display: inline;
-
-  font-size: 1.2rem;
 
   padding: 0.25rem;
 

@@ -127,17 +127,16 @@ main {
 
 .checkbox-container {
 	display: flex;
-	justify-content: center;
+	/* justify-content: center; */
 	flex-orientation: row;
-	align-items: center;
-	margin: 2rem 10%;
-	gap: 1rem;
-	height: 2rem;
+	/* align-items: start; */
+	padding-left: 2rem;
+	gap: .75rem;
+	height: 1.5rem;
 }
 .checkbox-label {
 	position: relative;
 	display: inline;
-	font-size: 1.2rem;
   padding: 0.25rem;
 	margin-top: .5rem;
 }

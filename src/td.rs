@@ -2,7 +2,9 @@ use leptos::prelude::*;
 use serde::Deserialize;
 use serde::Serialize;
 
+use crate::todo_element::CheckboxWithLabel;
 use crate::todo_element::Collapse;
+use crate::todo_element::SubCollapse;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TD {
@@ -34,25 +36,55 @@ pub fn TdList(list: TDList) -> impl IntoView {
 pub fn TdDisplay(td: TD) -> impl IntoView {
     view! {
         <Collapse title={td.name}>
-            <table>
-                <tr>
-                    <th>lvl1</th>
-                    <th>lvl2</th>
-                    <th>lvl3</th>
-                    <th>lvl1o</th>
-                    <th>lvl2o</th>
-                    <th>lvl3o</th>
 
-                </tr>
-                <tr>
-                    <td>{td.lvl1}</td>
-                    <td>{td.lvl2}</td>
-                    <td>{td.lvl3}</td>
-                    <td>{td.lvl1o}</td>
-                    <td>{td.lvl2o}</td>
-                    <td>{td.lvl3o}</td>
-                </tr>
-            </table>
+            <SubCollapse title="Niveau 1".to_string()>
+                {(0..td.lvl1).map(|n| {
+                    view! {
+                        <CheckboxWithLabel label={format!("{0}.{n}", td.id)}/>
+                    }}).collect::<Vec<_>>()
+                }
+            </SubCollapse>
+
+            <SubCollapse title="Niveau 2".to_string()>
+                {(0..td.lvl2).map(|n| {
+                    view! {
+                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, n + td.lvl1)}/>
+                    }}).collect::<Vec<_>>()
+                }
+            </SubCollapse>
+
+            <SubCollapse title="Niveau 3".to_string()>
+                {(0..td.lvl3).map(|n| {
+                    view! {
+                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, n + td.lvl2 + td.lvl1)}/>
+                    }}).collect::<Vec<_>>()
+                }
+            </SubCollapse>
+
+            <SubCollapse title="Niveau 1".to_string()>
+                {(0..td.lvl1o).map(|n| {
+                    view! {
+                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, n + td.lvl3 + td.lvl2 + td.lvl1)}/>
+                    }}).collect::<Vec<_>>()
+                }
+            </SubCollapse>
+
+            <SubCollapse title="Niveau 2".to_string()>
+                {(0..td.lvl2o).map(|n| {
+                    view! {
+                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, n + td.lvl1o + td.lvl3 + td.lvl2 + td.lvl1)}/>
+                    }}).collect::<Vec<_>>()
+                }
+            </SubCollapse>
+
+            <SubCollapse title="Niveau 3".to_string()>
+                {(0..td.lvl3o).map(|n| {
+                    view! {
+                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, n + td.lvl2o + td.lvl1o + td.lvl3 + td.lvl2 + td.lvl1)}/>
+                    }}).collect::<Vec<_>>()
+                }
+            </SubCollapse>
+
         </Collapse>
     }
 }
