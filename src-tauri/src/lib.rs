@@ -32,7 +32,7 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(generate_handler![get_task_state, test_command])
+        .invoke_handler(generate_handler![get_td_list_json])
         .run(generate_context!())
         .expect("error while running tauri application");
 }

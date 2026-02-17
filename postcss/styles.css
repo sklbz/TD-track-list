@@ -615,3 +615,7 @@ main {
     }
   }
 }
+
+.td-list {
+	gap: 1rem;
+}

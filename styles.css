@@ -5,6 +5,11 @@
   visibility: collapse;
 }
 
+.flex:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  display: flex;
+}
+
 .table:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
 
   display: table;
@@ -15,6 +20,11 @@
   transform:          ;
 
   transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+}
+
+.flex-col:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  flex-direction: column;
 }
 
 .border:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
@@ -1041,6 +1051,11 @@ details.collapse:not(#\#) summary {
 
     visibility: visible;
   }
+}
+
+.td-list:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  gap: 1rem;
 }
 
 @property --tw-rotate-x {

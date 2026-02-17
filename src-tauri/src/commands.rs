@@ -11,20 +11,7 @@ pub fn get_task_state(_td: u32, _exercice: u32) {
 }
 
 #[tauri::command]
-pub fn test_command() -> String {
-    let td = TD {
-        id: 0,
-        name: "test".to_string(),
-        lvl1: 1,
-        lvl2: 1,
-        lvl3: 1,
-        lvl1o: 1,
-        lvl2o: 1,
-        lvl3o: 1,
-    };
-
-    save_td(td);
-
+pub fn get_td_list_json() -> String {
     let td_list = get_td_list();
     match serde_json::to_string_pretty(&td_list) {
         Ok(json) => json,
@@ -57,5 +44,6 @@ fn get_td_list() -> TDList {
         Ok(data) => data,
         Err(_) => TDList { tds: Vec::new() },
     };
+
     td_list
 }

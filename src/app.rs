@@ -1,8 +1,8 @@
 use crate::progress_bar::ProgressBar;
 use crate::td::TDList;
 use crate::td::TdList;
-use crate::todo_element::CheckboxWithLabel;
-use crate::todo_element::Collapse;
+// use crate::todo_element::CheckboxWithLabel;
+// use crate::todo_element::Collapse;
 use leptos::prelude::*;
 use leptos::reactive::spawn_local;
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -21,7 +21,7 @@ pub fn App() -> impl IntoView {
     spawn_local({
         let set_td_list = set_td_list.clone();
         async move {
-            let result = invoke("test_command", wasm_bindgen::JsValue::NULL).await;
+            let result = invoke("get_td_list_json", wasm_bindgen::JsValue::NULL).await;
             let list = serde_json::from_str(&result.as_string().unwrap()).unwrap();
             set_td_list.set(list);
         }
@@ -29,13 +29,10 @@ pub fn App() -> impl IntoView {
 
     view! {
         <main>
-            <CheckboxWithLabel label="test".to_string() />
-            <CheckboxWithLabel label="test".to_string() />
-            <CheckboxWithLabel label="test".to_string() />
-            <Collapse title="TD 1".to_string()>
-                <CheckboxWithLabel label="test".to_string() />
-                { move || view!{ <TdList list=td_list.get()/>} }
-            </Collapse>
+            // <CheckboxWithLabel label="test".to_string() />
+            // <CheckboxWithLabel label="test".to_string() />
+            // <CheckboxWithLabel label="test".to_string() />
+            { move || view!{ <TdList list=td_list.get()/>} }
         </main>
         <ProgressBar percentage=0.618f32/>
     }
