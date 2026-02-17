@@ -11,3 +11,8 @@ pub struct TD {
     pub lvl2o: u32,
     pub lvl3o: u32,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct TDList {
+    pub tds: Vec<TD>,
+}

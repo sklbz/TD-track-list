@@ -3,7 +3,6 @@ use crate::todo_element::CheckboxWithLabel;
 use crate::todo_element::Collapse;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
-use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -23,9 +22,7 @@ pub fn App() -> impl IntoView {
             let s = result
                 .as_string()
                 .unwrap_or_else(|| "Command failed".to_string());
-            if s.is_empty() {
-                panic!("Command failed");
-            }
+
             set_text.set(s);
         }
     });
@@ -36,8 +33,8 @@ pub fn App() -> impl IntoView {
             <CheckboxWithLabel label="test".to_string() />
             <CheckboxWithLabel label="test".to_string() />
             <Collapse title="TD 1".to_string()>
-                // <CheckboxWithLabel label="test".to_string() />
-                {text.get()}
+                <CheckboxWithLabel label="test".to_string() />
+                {move || text.get()}
             </Collapse>
         </main>
         <ProgressBar percentage=0.618f32/>

@@ -1,7 +1,7 @@
 use crate::structure::TD;
 
 #[tauri::command]
-pub fn get_task_state(td: u32, exercice: u32) {
+pub fn get_task_state(_td: u32, _exercice: u32) {
     println!("Hello world!");
 }
 
@@ -21,4 +21,8 @@ pub fn test_command() -> String {
     let json = serde_json::to_string_pretty(&td).expect("Failed to serialize");
 
     json
+}
+
+fn save_td(td: TD) {
+    let mut td_list
 }
