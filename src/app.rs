@@ -17,13 +17,14 @@ extern "C" {
 #[component]
 pub fn App() -> impl IntoView {
     let (td_list, set_td_list) = signal(TDList { tds: vec![] });
+    let (debug, set_debug) = signal(String::new());
 
     spawn_local({
         async move {
             let result = invoke("get_td_list_json", wasm_bindgen::JsValue::NULL).await;
             let s = result.as_string().unwrap();
-            println!("{s}");
             let list = serde_json::from_str(&s).unwrap();
+            set_debug.set(s);
             set_td_list.set(list);
         }
     });
@@ -33,7 +34,7 @@ pub fn App() -> impl IntoView {
             // <CheckboxWithLabel label="test".to_string() />
             // <CheckboxWithLabel label="test".to_string() />
             // <CheckboxWithLabel label="test".to_string() />
-            { move || view!{ <CheckboxWithLabel label ="test".to_string()/>} }
+            { move || view!{ <CheckboxWithLabel label=debug.get() />} }
             { move || view!{ <TdList list=td_list.get()/>} }
         </main>
         <ProgressBar percentage=0.618f32/>

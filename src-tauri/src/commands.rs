@@ -5,13 +5,21 @@ use std::{
 
 use crate::structure::{Level::*, TDExercice, TDList, TD};
 
-#[tauri::command]
+/* #[tauri::command]
 pub fn get_task_state(_td: u32, _exercice: u32) {
     println!("Hello world!");
-}
+} */
 
 #[tauri::command]
 pub fn get_td_list_json() -> String {
+    let td = TD {
+        id: 16,
+        name: "Continuité".to_string(),
+        lvl1: vec![TDExercice { id: 1, lvl: Lvl1 }],
+        lvl2: vec![TDExercice { id: 2, lvl: Lvl2 }],
+        lvl3: vec![TDExercice { id: 3, lvl: Lvl3 }],
+    };
+
     let td_list = get_td_list();
     match serde_json::to_string_pretty(&td_list) {
         Ok(json) => json,

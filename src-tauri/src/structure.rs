@@ -28,7 +28,9 @@ pub struct TDExercice {
 pub struct TD {
     pub id: u32,
     pub name: String,
-    pub exercices: Vec<TDExercice>,
+    pub lvl1: Vec<TDExercice>,
+    pub lvl2: Vec<TDExercice>,
+    pub lvl3: Vec<TDExercice>,
 }
 
 #[derive(Serialize, Deserialize)]

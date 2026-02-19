@@ -23,8 +23,6 @@ impl Level {
     }
 }
 
-use Level::*;
-
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct TDExercice {
     pub id: u32,
@@ -35,7 +33,9 @@ pub struct TDExercice {
 pub struct TD {
     pub id: u32,
     pub name: String,
-    pub exercices: Vec<TDExercice>,
+    pub lvl1: Vec<TDExercice>,
+    pub lvl2: Vec<TDExercice>,
+    pub lvl3: Vec<TDExercice>,
 }
 
 impl TD {
@@ -73,29 +73,19 @@ pub fn TdDisplayDebug(td: TD) -> impl IntoView {
 
 #[component]
 pub fn TdDisplay(td: TD) -> impl IntoView {
-    let mut lvl1: Vec<TDExercice> = Vec::new();
-    let mut lvl2: Vec<TDExercice> = Vec::new();
-    let mut lvl3: Vec<TDExercice> = Vec::new();
-
-    td.exercices.iter().for_each(|e| match e.lvl {
-        Lvl1 => lvl1.push(*e),
-        Lvl2 => lvl2.push(*e),
-        Lvl3 => lvl3.push(*e),
-    });
-
     view! {
         <Collapse title={format!("TD {0}: {1}", td.get_id(), td.get_name())}>
 
             <SubCollapse title="Niveau 1".to_string()>
-                {lvl1.iter().map(|e| {
+                {td.lvl1.iter().map(|e| {
                     view! {
                         <CheckboxWithLabel label={format!("{0}.{1}", td.id, e.id)}/>
                     }}).collect::<Vec<_>>()
-                }
+            }
             </SubCollapse>
 
             <SubCollapse title="Niveau 2".to_string()>
-                {lvl2.iter().map(|e| {
+                {td.lvl2.iter().map(|e| {
                     view! {
                         <CheckboxWithLabel label={format!("{0}.{1}", td.id, e.id)}/>
                     }}).collect::<Vec<_>>()
@@ -103,7 +93,7 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
             </SubCollapse>
 
             <SubCollapse title="Niveau 3".to_string()>
-                {lvl3.iter().map(|e| {
+                {td.lvl3.iter().map(|e| {
                     view! {
                         <CheckboxWithLabel label={format!("{0}.{1}", td.id, e.id)}/>
                     }}).collect::<Vec<_>>()
