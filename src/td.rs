@@ -1,4 +1,7 @@
+use leptos::leptos_dom::logging;
+use leptos::logging::log;
 use leptos::prelude::*;
+use leptos::task::spawn_local;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -54,9 +57,6 @@ pub struct TD {
 impl TD {
     pub fn get_name(&self) -> String {
         self.name.clone()
-    }
-    pub fn get_id(&self) -> u32 {
-        self.id
     }
     pub fn get_score(&self) -> u32 {
         let result_1: u32 = self
@@ -149,13 +149,18 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                             label={format!("{0}.{1}", id, e_id)}
                             checked=*done
                             on_change=move |done: bool| {
-                                let args = serde_wasm_bindgen::to_value(&serde_json::json!({
-                                    "td_id": id,
-                                    "e_id": e_id,
-                                    "state": done
-                                }))
-                                .expect("Failed to serialize arguments");
-                                invoke("set_task_state", args);
+                                let id = id;
+                                let e_id = e_id;
+                                spawn_local(async move {
+                                    log!("set_task_state");
+                                    let args = serde_wasm_bindgen::to_value(&serde_json::json!({
+                                        "td": id,
+                                        "exercice": e_id,
+                                        "state": done
+                                    }))
+                                    .expect("Failed to serialize arguments");
+                                    invoke("set_task_state", args).await;
+                                })
                             }
                         />
                     }}).collect::<Vec<_>>()
@@ -171,13 +176,17 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                             label={format!("{0}.{1}", id, e_id)}
                             checked=*done
                             on_change=move |done: bool| {
-                                let args = serde_wasm_bindgen::to_value(&serde_json::json!({
-                                    "td_id": id,
-                                    "e_id": e_id,
-                                    "state": done
-                                }))
-                                .expect("Failed to serialize arguments");
-                                invoke("set_task_state", args);
+                                let id = id;
+                                let e_id = e_id;
+                                spawn_local(async move {
+                                    let args = serde_wasm_bindgen::to_value(&serde_json::json!({
+                                        "td": id,
+                                        "exercice": e_id,
+                                        "state": done
+                                    }))
+                                    .expect("Failed to serialize arguments");
+                                    invoke("set_task_state", args).await;
+                                })
                             }
                         />
                     }}).collect::<Vec<_>>()
@@ -193,13 +202,17 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                             label={format!("{0}.{1}", id, e_id)}
                             checked=*done
                             on_change=move |done: bool| {
-                                let args = serde_wasm_bindgen::to_value(&serde_json::json!({
-                                    "td_id": id,
-                                    "e_id": e_id,
-                                    "state": done
-                                }))
-                                .expect("Failed to serialize arguments");
-                                invoke("set_task_state", args);
+                                let id = id;
+                                let e_id = e_id;
+                                spawn_local(async move {
+                                    let args = serde_wasm_bindgen::to_value(&serde_json::json!({
+                                        "td": id,
+                                        "exercice": e_id,
+                                        "state": done
+                                    }))
+                                    .expect("Failed to serialize arguments");
+                                    invoke("set_task_state", args).await;
+                                })
                             }
                         />
                     }}).collect::<Vec<_>>()

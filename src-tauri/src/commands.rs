@@ -43,12 +43,14 @@ pub fn get_td_list_json() -> String {
 
 #[tauri::command]
 pub fn set_task_state(td: u32, exercice: u32, state: bool) {
+    println!("Hello task!");
     let mut td_list: TDList = get_td_list();
     td_list.set_task_state(td, exercice, state);
     rewrite_td_list(td_list);
 }
 
 fn rewrite_td_list(td_list: TDList) {
+    println!("rewrite");
     match serde_json::to_string_pretty(&td_list) {
         Ok(json) => save_td_list_json(json),
         Err(e) => println!("{}", e),
@@ -56,6 +58,7 @@ fn rewrite_td_list(td_list: TDList) {
 }
 
 fn save_td_list_json(json: String) {
+    println!("save");
     let path = Path::new("/home/sklbz/.config/td-track/td.json");
     match write(path, json) {
         Ok(_) => println!("Successfully wrote to file"),
