@@ -6,6 +6,8 @@ use crate::todo_element::CheckboxWithLabel;
 use crate::todo_element::Collapse;
 use crate::todo_element::SubCollapse;
 
+use super::app::invoke;
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum Level {
     Lvl1,
@@ -27,6 +29,17 @@ impl Level {
 pub struct TDExercice {
     pub id: u32,
     pub lvl: Level,
+    pub done: bool,
+}
+
+impl TDExercice {
+    pub fn get_score(&self) -> u8 {
+        if self.done {
+            return self.lvl.to_u8();
+        }
+
+        0u8
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -45,11 +58,53 @@ impl TD {
     pub fn get_id(&self) -> u32 {
         self.id
     }
+    pub fn get_score(&self) -> u32 {
+        let result_1: u32 = self
+            .lvl1
+            .iter()
+            .fold(0u32, |acc, value| acc + value.get_score() as u32);
+
+        let result_2: u32 = self
+            .lvl2
+            .iter()
+            .fold(result_1, |acc, value| acc + value.get_score() as u32);
+
+        let result_3: u32 = self
+            .lvl3
+            .iter()
+            .fold(result_2, |acc, value| acc + value.get_score() as u32);
+
+        result_3
+    }
+
+    pub fn max_score(&self) -> u32 {
+        let raw_max = self.lvl1.len() + self.lvl2.len() * 2 + self.lvl3.len() * 3;
+
+        raw_max as u32
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TDList {
     pub tds: Vec<TD>,
+}
+
+impl TDList {
+    pub fn get_score(&self) -> u32 {
+        self.tds
+            .iter()
+            .fold(0u32, |acc, value| acc + value.get_score())
+    }
+
+    pub fn max_score(&self) -> u32 {
+        self.tds
+            .iter()
+            .fold(0u32, |acc, value| acc + value.max_score())
+    }
+
+    pub fn proportion(&self) -> f32 {
+        self.get_score() as f32 / self.max_score() as f32
+    }
 }
 
 #[component]
@@ -73,29 +128,80 @@ pub fn TdDisplayDebug(td: TD) -> impl IntoView {
 
 #[component]
 pub fn TdDisplay(td: TD) -> impl IntoView {
+    let id = td.id;
+    let name = td.get_name();
+    let score = td.get_score();
+    let max_score = td.max_score();
+
+    let lvl1_data: Vec<(u32, bool)> = td.lvl1.iter().map(|e| (e.id, e.done)).collect();
+    let lvl2_data: Vec<(u32, bool)> = td.lvl2.iter().map(|e| (e.id, e.done)).collect();
+    let lvl3_data: Vec<(u32, bool)> = td.lvl3.iter().map(|e| (e.id, e.done)).collect();
+
     view! {
-        <Collapse title={format!("TD {0}: {1}", td.get_id(), td.get_name())}>
+        <Collapse title={format!("TD {0}: {1}", id, name)} label=format!("{0}/{1}", score, max_score)>
 
             <SubCollapse title="Niveau 1".to_string()>
-                {td.lvl1.iter().map(|e| {
+                {lvl1_data.iter().map(|(e_id, done)| {
+                    let id = id;
+                    let e_id = *e_id;
                     view! {
-                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, e.id)}/>
+                        <CheckboxWithLabel
+                            label={format!("{0}.{1}", id, e_id)}
+                            checked=*done
+                            on_change=move |done: bool| {
+                                let args = serde_wasm_bindgen::to_value(&serde_json::json!({
+                                    "td_id": id,
+                                    "e_id": e_id,
+                                    "state": done
+                                }))
+                                .expect("Failed to serialize arguments");
+                                invoke("set_task_state", args);
+                            }
+                        />
                     }}).collect::<Vec<_>>()
             }
             </SubCollapse>
 
             <SubCollapse title="Niveau 2".to_string()>
-                {td.lvl2.iter().map(|e| {
+                {lvl2_data.iter().map(|(e_id, done)| {
+                    let id = id;
+                    let e_id = *e_id;
                     view! {
-                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, e.id)}/>
+                        <CheckboxWithLabel
+                            label={format!("{0}.{1}", id, e_id)}
+                            checked=*done
+                            on_change=move |done: bool| {
+                                let args = serde_wasm_bindgen::to_value(&serde_json::json!({
+                                    "td_id": id,
+                                    "e_id": e_id,
+                                    "state": done
+                                }))
+                                .expect("Failed to serialize arguments");
+                                invoke("set_task_state", args);
+                            }
+                        />
                     }}).collect::<Vec<_>>()
                 }
             </SubCollapse>
 
             <SubCollapse title="Niveau 3".to_string()>
-                {td.lvl3.iter().map(|e| {
+                {lvl3_data.iter().map(|(e_id, done)| {
+                    let id = id;
+                    let e_id = *e_id;
                     view! {
-                        <CheckboxWithLabel label={format!("{0}.{1}", td.id, e.id)}/>
+                        <CheckboxWithLabel
+                            label={format!("{0}.{1}", id, e_id)}
+                            checked=*done
+                            on_change=move |done: bool| {
+                                let args = serde_wasm_bindgen::to_value(&serde_json::json!({
+                                    "td_id": id,
+                                    "e_id": e_id,
+                                    "state": done
+                                }))
+                                .expect("Failed to serialize arguments");
+                                invoke("set_task_state", args);
+                            }
+                        />
                     }}).collect::<Vec<_>>()
                 }
             </SubCollapse>

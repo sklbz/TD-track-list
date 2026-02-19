@@ -601,6 +601,17 @@ main {
   }
 }
 
+.collapse-label {
+	position: absolute;
+	margin: 1rem;
+	right: .1rem;
+	font-size: .9rem;
+	font-weight: 300;
+	color: var(--catppuccin-overlay1);
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
+
 .collapse-open {
   @layer daisyui.l1.l2 {
     grid-template-rows: max-content 1fr;

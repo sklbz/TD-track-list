@@ -7,21 +7,11 @@ pub enum Level {
     Lvl3,
 }
 
-#[allow(unused)]
-impl Level {
-    pub fn to_u8(&self) -> u8 {
-        match self {
-            Level::Lvl1 => 1,
-            Level::Lvl2 => 2,
-            Level::Lvl3 => 3,
-        }
-    }
-}
-
 #[derive(Serialize, Deserialize)]
 pub struct TDExercice {
     pub id: u32,
     pub lvl: Level,
+    pub done: bool,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -36,4 +26,34 @@ pub struct TD {
 #[derive(Serialize, Deserialize)]
 pub struct TDList {
     pub tds: Vec<TD>,
+}
+
+impl TDList {
+    pub fn set_task_state(&mut self, td_id: u32, exercice_id: u32, state: bool) {
+        for td in self.tds.iter_mut() {
+            if td.id == td_id {
+                td.set_task_state(exercice_id, state);
+            }
+        }
+    }
+}
+
+impl TD {
+    pub fn set_task_state(&mut self, exercice_id: u32, state: bool) {
+        for exercice in self.lvl1.iter_mut() {
+            if exercice.id == exercice_id {
+                exercice.done = state;
+            }
+        }
+        for exercice in self.lvl2.iter_mut() {
+            if exercice.id == exercice_id {
+                exercice.done = state;
+            }
+        }
+        for exercice in self.lvl3.iter_mut() {
+            if exercice.id == exercice_id {
+                exercice.done = state;
+            }
+        }
+    }
 }

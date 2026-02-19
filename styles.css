@@ -1033,6 +1033,27 @@ details.collapse:not(#\#) summary {
   transition: background-color 0.2s ease-out;
 }
 
+.collapse-label:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  position: absolute;
+
+  margin: 1rem;
+
+  right: .1rem;
+
+  font-size: .9rem;
+
+  font-weight: 300;
+
+  color: #7f849c;
+
+  color: var(--catppuccin-overlay1);
+
+  -moz-osx-font-smoothing: grayscale;
+
+  -webkit-font-smoothing: antialiased;
+}
+
 .collapse-open:not(#\#):not(#\#) {
 
   grid-template-rows: max-content 1fr;
