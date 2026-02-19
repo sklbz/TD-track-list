@@ -2,7 +2,7 @@ use crate::progress_bar::ProgressBar;
 use crate::td::TDList;
 use crate::td::TdList;
 use crate::todo_element::CheckboxWithLabel;
-// use crate::todo_element::Collapse;
+use crate::todo_element::Collapse;
 use leptos::prelude::*;
 use leptos::reactive::spawn_local;
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -34,7 +34,11 @@ pub fn App() -> impl IntoView {
             // <CheckboxWithLabel label="test".to_string() />
             // <CheckboxWithLabel label="test".to_string() />
             // <CheckboxWithLabel label="test".to_string() />
-            { move || view!{ <CheckboxWithLabel label=debug.get() />} }
+            /* { move || view!{
+                <Collapse title=debug.get()>
+                    <CheckboxWithLabel label="".to_string() />
+                <Collapse/>
+            } } */
             { move || view!{ <TdList list=td_list.get()/>} }
         </main>
         <ProgressBar percentage=0.618f32/>

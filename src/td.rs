@@ -57,19 +57,19 @@ pub fn TdList(list: TDList) -> impl IntoView {
     view! {
         <section class="td-list flex flex-col p-4">
             {list.tds.iter().map(|td| view! { <TdDisplay td={td.clone()}/> }).collect::<Vec<_>>()}
-            {list.tds.iter().map(|td| view! { <TdDisplayDebug td={td.clone()}/> }).collect::<Vec<_>>()}
+            // {list.tds.iter().map(|td| view! { <TdDisplayDebug td={td.clone()}/> }).collect::<Vec<_>>()}
         </section>
     }
 }
 
-#[component]
+/* #[component]
 pub fn TdDisplayDebug(td: TD) -> impl IntoView {
     view! {
         <Collapse title={format!("TD {0}: {1}", td.id, td.name)}>
         "yay"
         </Collapse>
     }
-}
+} */
 
 #[component]
 pub fn TdDisplay(td: TD) -> impl IntoView {
