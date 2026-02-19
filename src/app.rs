@@ -1,7 +1,7 @@
 use crate::progress_bar::ProgressBar;
 use crate::td::TDList;
 use crate::td::TdList;
-// use crate::todo_element::CheckboxWithLabel;
+use crate::todo_element::CheckboxWithLabel;
 // use crate::todo_element::Collapse;
 use leptos::prelude::*;
 use leptos::reactive::spawn_local;
@@ -19,10 +19,11 @@ pub fn App() -> impl IntoView {
     let (td_list, set_td_list) = signal(TDList { tds: vec![] });
 
     spawn_local({
-        let set_td_list = set_td_list.clone();
         async move {
             let result = invoke("get_td_list_json", wasm_bindgen::JsValue::NULL).await;
-            let list = serde_json::from_str(&result.as_string().unwrap()).unwrap();
+            let s = result.as_string().unwrap();
+            println!("{s}");
+            let list = serde_json::from_str(&s).unwrap();
             set_td_list.set(list);
         }
     });
@@ -32,6 +33,7 @@ pub fn App() -> impl IntoView {
             // <CheckboxWithLabel label="test".to_string() />
             // <CheckboxWithLabel label="test".to_string() />
             // <CheckboxWithLabel label="test".to_string() />
+            { move || view!{ <CheckboxWithLabel label ="test".to_string()/>} }
             { move || view!{ <TdList list=td_list.get()/>} }
         </main>
         <ProgressBar percentage=0.618f32/>
