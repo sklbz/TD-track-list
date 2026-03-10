@@ -1,15 +1,15 @@
 use crate::commands::get_td_list_json;
 use crate::commands::set_task_state;
+use tauri::Builder;
 use tauri::{generate_context, generate_handler, Manager};
 use tauri_plugin_opener::init;
-use tauri_plugin_store::Builder;
 
 mod commands;
 mod structure;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let mut builder = tauri::Builder::default();
+    let mut builder = Builder::default();
     #[cfg(desktop)]
     {
         builder = builder.plugin(tauri_plugin_single_instance::init(|app, args, cwd| {
@@ -21,17 +21,7 @@ pub fn run() {
     }
     builder
         .plugin(init())
-        .plugin(Builder::default().build())
-        .setup(|app| {
-            // Create a new store or load the existing one
-            // this also put the store in the app's resource table
-            // so your following `store` calls (from both Rust and JS)
-            // will reuse the same store.
-
-            // let store = app.store("store.json")?;
-
-            Ok(())
-        })
+        .setup(|app| Ok(()))
         .invoke_handler(generate_handler![get_td_list_json, set_task_state])
         .run(generate_context!())
         .expect("error while running tauri application");

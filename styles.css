@@ -10,11 +10,6 @@
   display: flex;
 }
 
-.table:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
-
-  display: table;
-}
-
 .transform:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
 
   transform:          ;

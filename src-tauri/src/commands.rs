@@ -68,8 +68,15 @@ fn td_setup() {
         12,
         "Espaces vectoriels".to_string(),
         (11, 23, 26, 31, 40, 43),
-    ); */
+    );
     new_td(13, "Normes et suites".to_string(), (8, 15, 17, 20, 31, 35));
+    new_td(15, "Topologie".to_string(), (3, 13, 18, 19, 31, 34));
+    new_td(16, "Continuité".to_string(), (6, 17, 25, 28, 39, 51));
+    new_td(
+        17,
+        "Calcul asymptotique".to_string(),
+        (15, 27, 29, 43, 59, 65),
+    ); */
 }
 
 #[tauri::command]

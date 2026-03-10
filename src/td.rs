@@ -159,7 +159,7 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
 
             <SubCollapse title="Niveau 1".to_string()>
                 {lvl1_data.iter().map(|(e_id, done)| {
-                    let id = id;
+                    // let id = id;
                     let e_id = *e_id;
                     view! {
                         <CheckboxWithLabel
