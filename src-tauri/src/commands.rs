@@ -3,7 +3,8 @@ use std::{
     path::Path,
 };
 
-use crate::structure::{TDList, TD};
+use crate::structure::Level::{Lvl1, Lvl2, Lvl3};
+use crate::structure::{TDExercice, TDList, TD};
 
 /* #[tauri::command]
 pub fn get_task_state(_td: u32, _exercice: u32) {
@@ -30,15 +31,39 @@ pub fn get_td_list_json() -> String {
             lvl: Lvl3,
             done: false,
         }],
-    };
+    }; */
 
-    add_td(td); */
+    td_setup();
 
     let td_list = get_td_list();
     match serde_json::to_string_pretty(&td_list) {
         Ok(json) => json,
         Err(e) => e.to_string(),
     }
+}
+
+fn td_setup() {
+    /* new_td(
+        2,
+        "Dérivation, Intégration".to_string(),
+        (12, 25, 32, 43, 61, 68),
+    );
+    new_td(4, "Relations binaires".to_string(), (6, 14, 16, 22, 35, 41));
+    new_td(5, "Arithmétique".to_string(), (7, 14, 17, 26, 38, 43));
+    new_td(6, "Les réels".to_string(), (6, 14, 15, 21, 26, 28));
+    new_td(
+        7,
+        "Applications, lois internes".to_string(),
+        (7, 16, 19, 24, 36, 39),
+    );
+    new_td(
+        8,
+        "Dénombrement, sommes finies".to_string(),
+        (6, 17, 24, 29, 43, 53),
+    );
+    new_td(9, "Les complexes".to_string(), (10, 22, 24, 32, 44, 48));
+    new_td(10, "Groupes".to_string(), (7, 15, 22, 29, 39, 46));*/
+    new_td(11, "Anneaux".to_string(), (5, 14, 18, 23, 31, 36));
 }
 
 #[tauri::command]
@@ -64,6 +89,66 @@ fn save_td_list_json(json: String) {
         Ok(_) => println!("Successfully wrote to file"),
         Err(e) => println!("Failed to write to file: {}", e),
     };
+}
+
+fn new_td(id: u32, name: String, bounds: (u32, u32, u32, u32, u32, u32)) {
+    let mut lvl1: Vec<TDExercice> = (1..bounds.0)
+        .map(|i: u32| TDExercice {
+            id: i,
+            lvl: Lvl1,
+            done: false,
+        })
+        .collect();
+    let mut lvl1_opt: Vec<TDExercice> = (bounds.2..bounds.3)
+        .map(|i: u32| TDExercice {
+            id: i,
+            lvl: Lvl1,
+            done: false,
+        })
+        .collect();
+    lvl1.append(&mut lvl1_opt);
+
+    let mut lvl2: Vec<TDExercice> = (bounds.0..bounds.1)
+        .map(|i: u32| TDExercice {
+            id: i,
+            lvl: Lvl2,
+            done: false,
+        })
+        .collect();
+    let mut lvl2_opt: Vec<TDExercice> = (bounds.3..bounds.4)
+        .map(|i: u32| TDExercice {
+            id: i,
+            lvl: Lvl2,
+            done: false,
+        })
+        .collect();
+    lvl2.append(&mut lvl2_opt);
+
+    let mut lvl3: Vec<TDExercice> = (bounds.1..bounds.2)
+        .map(|i: u32| TDExercice {
+            id: i,
+            lvl: Lvl3,
+            done: false,
+        })
+        .collect();
+    let mut lvl3_opt: Vec<TDExercice> = (bounds.4..bounds.5)
+        .map(|i: u32| TDExercice {
+            id: i,
+            lvl: Lvl3,
+            done: false,
+        })
+        .collect();
+    lvl3.append(&mut lvl3_opt);
+
+    let td = TD {
+        id,
+        name,
+        lvl1,
+        lvl2,
+        lvl3,
+    };
+
+    add_td(td);
 }
 
 fn add_td(td: TD) {

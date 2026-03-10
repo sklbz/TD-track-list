@@ -2,7 +2,7 @@ use crate::progress_bar::ProgressBar;
 use crate::td::TDList;
 use crate::td::TdList;
 // use crate::todo_element::CheckboxWithLabel;
-use crate::todo_element::Collapse;
+// use crate::todo_element::Collapse;
 use leptos::prelude::*;
 use leptos::reactive::spawn_local;
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -23,8 +23,8 @@ pub fn App() -> impl IntoView {
         async move {
             let result = invoke("get_td_list_json", JsValue::NULL).await;
             let s = result.as_string().unwrap();
-            let list = serde_json::from_str(&s).unwrap();
-            // set_debug.set(s);
+            let mut list: TDList = serde_json::from_str(&s).unwrap();
+            list.sort();
             set_td_list.set(list);
         }
     });

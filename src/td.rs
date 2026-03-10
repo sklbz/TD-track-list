@@ -104,6 +104,10 @@ impl TDList {
     pub fn proportion(&self) -> f32 {
         self.get_score() as f32 / self.max_score() as f32
     }
+
+    pub fn sort(&mut self) {
+        self.tds.sort_by(|a, b| a.id.cmp(&b.id));
+    }
 }
 
 #[component]
