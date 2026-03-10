@@ -39,9 +39,6 @@ pub fn App() -> impl IntoView {
                     <CheckboxWithLabel label="".to_string() />
                 <Collapse/>
             } } */
-            <Collapse title="test".to_string() label="test".to_string() >
-        {"yay"}
-            </Collapse>
             { move || view!{ <TdList list=td_list.get()/>} }
         </main>
         {move || view!{ <ProgressBar percentage=td_list.get().proportion() />}}

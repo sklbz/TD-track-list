@@ -228,6 +228,19 @@ main:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
   border-radius: 10000px;
 }
 
+.progress-inner-bar:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  height: 100%;
+
+  width: var(--proportion);
+
+  background: #cba6f7;
+
+  background: var(--catppuccin-mauve);
+
+  border-radius: 10000px;
+}
+
 .checkbox-container:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
 
   display: flex;
@@ -1080,7 +1093,20 @@ details.collapse:not(#\#) summary {
 
 .td-list:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
 
+  display: flex;
+
+  flex-direction: column;
+
   gap: 1rem;
+}
+
+.td-collapse:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) > .collapse-content > .sub-collapse > .collapse-content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: .5rem;
 }
 
 @property --tw-rotate-x {

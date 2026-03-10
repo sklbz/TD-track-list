@@ -4,7 +4,7 @@ use leptos::prelude::*;
 pub fn ProgressBar(percentage: f32) -> impl IntoView {
     view! {
         <div class="progress-outer-bar">
-            <div class="progress-inner-bar" style={format!("--proportion: {percentage}")}></div>
+            <div class="progress-inner-bar" style={format!("--proportion: {}%", percentage * 100f32)}></div>
         </div>
     }
 }

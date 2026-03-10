@@ -1,4 +1,3 @@
-use leptos::leptos_dom::logging;
 use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
@@ -137,8 +136,22 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
     let lvl2_data: Vec<(u32, bool)> = td.lvl2.iter().map(|e| (e.id, e.done)).collect();
     let lvl3_data: Vec<(u32, bool)> = td.lvl3.iter().map(|e| (e.id, e.done)).collect();
 
+    let percentage = score as f32 / max_score as f32;
+
+    let color = if percentage < 0.5 {
+        "catppuccin-red".to_string()
+    } else if percentage < 0.8 {
+        "catppuccin-yellow".to_string()
+    } else {
+        "catppuccin-green".to_string()
+    };
+
     view! {
-        <Collapse title={format!("TD {0}: {1}", id, name)} label=format!("{0}/{1}", score, max_score)>
+        <Collapse
+            title={format!("TD {0}: {1}", id, name)}
+            label=format!("{0}/{1}", score, max_score)
+            label_color=color
+            class="td-collapse".to_string()>
 
             <SubCollapse title="Niveau 1".to_string()>
                 {lvl1_data.iter().map(|(e_id, done)| {
