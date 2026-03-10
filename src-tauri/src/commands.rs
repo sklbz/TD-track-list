@@ -62,8 +62,14 @@ fn td_setup() {
         (6, 17, 24, 29, 43, 53),
     );
     new_td(9, "Les complexes".to_string(), (10, 22, 24, 32, 44, 48));
-    new_td(10, "Groupes".to_string(), (7, 15, 22, 29, 39, 46));*/
+    new_td(10, "Groupes".to_string(), (7, 15, 22, 29, 39, 46));
     new_td(11, "Anneaux".to_string(), (5, 14, 18, 23, 31, 36));
+    new_td(
+        12,
+        "Espaces vectoriels".to_string(),
+        (11, 23, 26, 31, 40, 43),
+    ); */
+    new_td(13, "Normes et suites".to_string(), (8, 15, 17, 20, 31, 35));
 }
 
 #[tauri::command]
