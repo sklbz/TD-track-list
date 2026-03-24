@@ -76,6 +76,16 @@ fn td_setup() {
         17,
         "Calcul asymptotique".to_string(),
         (15, 27, 29, 43, 59, 65),
+    );
+    new_td(
+        18,
+        "Dérivation, Connexité".to_string(),
+        (9, 19, 22, 25, 35, 44),
+    );
+    new_td(
+        19,
+        "Equations différentielles linéaires".to_string(),
+        (6, 15, 19, 23, 32, 34),
     ); */
 }
 
