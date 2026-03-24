@@ -1,4 +1,3 @@
-use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
 use serde::Deserialize;
@@ -81,6 +80,23 @@ impl TD {
 
         raw_max as u32
     }
+    pub fn set_task_state(&mut self, exercice_id: u32, state: bool) {
+        for exercice in self.lvl1.iter_mut() {
+            if exercice.id == exercice_id {
+                exercice.done = state;
+            }
+        }
+        for exercice in self.lvl2.iter_mut() {
+            if exercice.id == exercice_id {
+                exercice.done = state;
+            }
+        }
+        for exercice in self.lvl3.iter_mut() {
+            if exercice.id == exercice_id {
+                exercice.done = state;
+            }
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -107,6 +123,17 @@ impl TDList {
 
     pub fn sort(&mut self) {
         self.tds.sort_by(|a, b| a.id.cmp(&b.id));
+    }
+
+    pub fn set_task_state(&self, td_id: u32, exercice_id: u32, state: bool) -> TDList {
+        let mut new_self = self.clone();
+        for td in new_self.tds.iter_mut() {
+            if td.id == td_id {
+                td.set_task_state(exercice_id, state);
+            }
+        }
+
+        new_self
     }
 }
 
@@ -142,13 +169,19 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
 
     let percentage = score as f32 / max_score as f32;
 
-    let color = if percentage < 0.5 {
+    let color = if percentage < 0.17 {
         "catppuccin-red".to_string()
+    } else if percentage < 0.33 {
+        "catppuccin-maroon".to_string()
+    } else if percentage < 0.5 {
+        "catppuccin-peach".to_string()
     } else if percentage < 0.8 {
         "catppuccin-yellow".to_string()
     } else {
         "catppuccin-green".to_string()
     };
+
+    let (td_list, set_td_list) = use_context::<Signal<TDList>>().unwrap();
 
     view! {
         <Collapse
@@ -169,7 +202,7 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                                 let id = id;
                                 let e_id = e_id;
                                 spawn_local(async move {
-                                    log!("set_task_state");
+                                    set_td_list.set(td_list.get().set_task_state(id, e_id, done));
                                     let args = serde_wasm_bindgen::to_value(&serde_json::json!({
                                         "td": id,
                                         "exercice": e_id,

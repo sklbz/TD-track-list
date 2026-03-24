@@ -18,6 +18,8 @@ extern "C" {
 pub fn App() -> impl IntoView {
     let (td_list, set_td_list) = signal(TDList { tds: vec![] });
     // let (debug, set_debug) = signal(String::new());
+    let td_signal = (td_list, set_td_list);
+    provide_context(td_signal);
 
     spawn_local({
         async move {

@@ -12,7 +12,7 @@ pub fn run() {
     let mut builder = Builder::default();
     #[cfg(desktop)]
     {
-        builder = builder.plugin(tauri_plugin_single_instance::init(|app, args, cwd| {
+        builder = builder.plugin(tauri_plugin_single_instance::init(|app, _, _| {
             let _ = app
                 .get_webview_window("main")
                 .expect("no main window")
@@ -21,7 +21,6 @@ pub fn run() {
     }
     builder
         .plugin(init())
-        .setup(|app| Ok(()))
         .invoke_handler(generate_handler![get_td_list_json, set_task_state])
         .run(generate_context!())
         .expect("error while running tauri application");
