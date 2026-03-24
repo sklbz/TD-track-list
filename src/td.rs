@@ -181,7 +181,7 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
         "catppuccin-green".to_string()
     };
 
-    let (td_list, set_td_list) = use_context::<Signal<TDList>>().unwrap();
+    let td_list = use_context::<RwSignal<TDList>>().unwrap();
 
     view! {
         <Collapse
@@ -202,7 +202,7 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                                 let id = id;
                                 let e_id = e_id;
                                 spawn_local(async move {
-                                    set_td_list.set(td_list.get().set_task_state(id, e_id, done));
+                                    td_list.set(td_list.get().set_task_state(id, e_id, done));
                                     let args = serde_wasm_bindgen::to_value(&serde_json::json!({
                                         "td": id,
                                         "exercice": e_id,
