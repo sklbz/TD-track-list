@@ -229,6 +229,7 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                                 let id = id;
                                 let e_id = e_id;
                                 spawn_local(async move {
+                                    td_list.set(td_list.get().set_task_state(id, e_id, done));
                                     let args = serde_wasm_bindgen::to_value(&serde_json::json!({
                                         "td": id,
                                         "exercice": e_id,
@@ -255,6 +256,7 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                                 let id = id;
                                 let e_id = e_id;
                                 spawn_local(async move {
+                                    td_list.set(td_list.get().set_task_state(id, e_id, done));
                                     let args = serde_wasm_bindgen::to_value(&serde_json::json!({
                                         "td": id,
                                         "exercice": e_id,
