@@ -1,4 +1,5 @@
 use crate::commands::get_td_list_json;
+use crate::commands::get_title;
 use crate::commands::set_task_state;
 use tauri::Builder;
 use tauri::{generate_context, generate_handler, Manager};
@@ -21,7 +22,11 @@ pub fn run() {
     }
     builder
         .plugin(init())
-        .invoke_handler(generate_handler![get_td_list_json, set_task_state])
+        .invoke_handler(generate_handler![
+            get_td_list_json,
+            set_task_state,
+            get_title
+        ])
         .run(generate_context!())
         .expect("error while running tauri application");
 }

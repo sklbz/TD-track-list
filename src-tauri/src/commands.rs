@@ -1,4 +1,7 @@
+use serde::{Deserialize, Serialize};
+use serde_with::serde_as;
 use std::{
+    collections::HashMap,
     fs::{read_to_string, write},
     path::Path,
 };
@@ -10,6 +13,13 @@ use crate::structure::{TDExercice, TDList, TD};
 pub fn get_task_state(_td: u32, _exercice: u32) {
     println!("Hello world!");
 } */
+
+#[serde_as]
+#[derive(Serialize, Deserialize, Debug)]
+struct TitleMap {
+    #[serde_as(as = "Vec<(_, _)>")]
+    title_map: HashMap<(u32, u32), String>,
+}
 
 #[tauri::command]
 pub fn get_td_list_json() -> String {
@@ -34,6 +44,17 @@ pub fn get_td_list_json() -> String {
     }; */
 
     td_setup();
+
+    let mut title_map: HashMap<(u32, u32), String> = HashMap::new();
+    title_map.insert((10, 45), "Lemme d'Artin".to_string());
+    let title_map = TitleMap { title_map };
+
+    let title_json = match serde_json::to_string_pretty(&title_map) {
+        Ok(json) => json,
+        Err(e) => e.to_string(),
+    };
+    println!("{}", title_json);
+    save_title_json(title_json);
 
     let td_list = get_td_list();
     match serde_json::to_string_pretty(&td_list) {
@@ -90,6 +111,16 @@ fn td_setup() {
 }
 
 #[tauri::command]
+pub fn get_title(td_id: u32, exercice_id: u32) -> String {
+    let title_map = get_title_map();
+    if title_map.contains_key(&(td_id, exercice_id)) {
+        title_map.get(&(td_id, exercice_id)).unwrap().clone()
+    } else {
+        "".to_string()
+    }
+}
+
+#[tauri::command]
 pub fn set_task_state(td: u32, exercice: u32, state: bool) {
     println!("Hello task!");
     let mut td_list: TDList = get_td_list();
@@ -110,6 +141,15 @@ fn save_td_list_json(json: String) {
     let path = Path::new("/home/sklbz/.config/td-track/td.json");
     match write(path, json) {
         Ok(_) => println!("Successfully wrote to file"),
+        Err(e) => println!("Failed to write to file: {}", e),
+    };
+}
+
+fn save_title_json(json: String) {
+    println!("save title");
+    let path = Path::new("/home/sklbz/.config/td-track/titles.json");
+    match write(path, json) {
+        Ok(_) => println!("Successfully wrote titles to file"),
         Err(e) => println!("Failed to write to file: {}", e),
     };
 }
@@ -201,4 +241,18 @@ fn get_td_list() -> TDList {
     };
 
     td_list
+}
+
+fn get_title_map() -> HashMap<(u32, u32), String> {
+    let path = Path::new("/home/sklbz/.config/td-track/titles.json");
+    let raw_data = match read_to_string(path) {
+        Ok(data) => data,
+        Err(e) => e.to_string(),
+    };
+    let title_map: HashMap<(u32, u32), String> = match serde_json::from_str(&raw_data) {
+        Ok(data) => data,
+        Err(_) => HashMap::new(),
+    };
+
+    title_map
 }

@@ -156,6 +156,12 @@ pub fn TdDisplayDebug(td: TD) -> impl IntoView {
     }
 } */
 
+#[derive(Serialize)]
+struct GetTitleArgs {
+    td_id: u32,
+    exercice_id: u32,
+}
+
 #[component]
 pub fn TdDisplay(td: TD) -> impl IntoView {
     let id = td.id;
