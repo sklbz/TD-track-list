@@ -178,8 +178,6 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
         "catppuccin-green".to_string()
     };
 
-    let td_list = use_context::<RwSignal<TDList>>().unwrap();
-
     view! {
         <Collapse
             title={format!("TD {0}: {1}", id, name)}

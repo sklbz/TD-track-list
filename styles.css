@@ -5,6 +5,11 @@
   visibility: collapse;
 }
 
+.static:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
+
+  position: static;
+}
+
 .flex:not(#\#):not(#\#):not(#\#):not(#\#):not(#\#) {
 
   display: flex;

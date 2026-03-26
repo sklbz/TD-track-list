@@ -1,25 +1,6 @@
 use leptos::prelude::*;
 
 #[component]
-pub fn CheckboxWithLabel<F>(label: String, on_change: F, checked: bool) -> impl IntoView
-where
-    F: Fn(bool) + 'static,
-{
-    view! {
-        <div class="checkbox-container">
-            <input type="checkbox"
-                checked=checked
-                on:change=move |ev| {
-                    let checked = event_target_checked(&ev);
-                    on_change(checked);
-                }
-                class="checkbox"/>
-            <span class="checkbox-label text-xs">{label}</span>
-        </div>
-    }
-}
-
-#[component]
 pub fn Collapse(
     title: String,
     label: String,

@@ -1,12 +1,13 @@
 use crate::commands::get_td_list_json;
-use crate::commands::get_title;
 use crate::commands::set_task_state;
+use crate::title_commands::get_title;
 use tauri::Builder;
 use tauri::{generate_context, generate_handler, Manager};
 use tauri_plugin_opener::init;
 
 mod commands;
 mod structure;
+mod title_commands;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
