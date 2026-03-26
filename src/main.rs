@@ -1,4 +1,5 @@
 mod app;
+mod checkbox;
 mod progress_bar;
 mod td;
 mod todo_element;

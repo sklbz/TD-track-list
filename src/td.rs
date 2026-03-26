@@ -1,13 +1,10 @@
 use leptos::prelude::*;
-use leptos::task::spawn_local;
 use serde::Deserialize;
 use serde::Serialize;
 
-use crate::todo_element::CheckboxWithLabel;
+use crate::checkbox::CheckboxWithLabel;
 use crate::todo_element::Collapse;
 use crate::todo_element::SubCollapse;
-
-use super::app::invoke;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum Level {
@@ -17,7 +14,7 @@ pub enum Level {
 }
 
 impl Level {
-    pub fn to_u8(&self) -> u8 {
+    pub fn as_u8(&self) -> u8 {
         match self {
             Level::Lvl1 => 1,
             Level::Lvl2 => 2,
@@ -36,7 +33,7 @@ pub struct TDExercice {
 impl TDExercice {
     pub fn get_score(&self) -> u8 {
         if self.done {
-            return self.lvl.to_u8();
+            return self.lvl.as_u8();
         }
 
         0u8
@@ -156,12 +153,6 @@ pub fn TdDisplayDebug(td: TD) -> impl IntoView {
     }
 } */
 
-#[derive(Serialize)]
-struct GetTitleArgs {
-    td_id: u32,
-    exercice_id: u32,
-}
-
 #[component]
 pub fn TdDisplay(td: TD) -> impl IntoView {
     let id = td.id;
@@ -202,22 +193,9 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
                     let e_id = *e_id;
                     view! {
                         <CheckboxWithLabel
-                            label={format!("{0}.{1}", id, e_id)}
+                            td_id=id
+                            exercice_id=e_id
                             checked=*done
-                            on_change=move |done: bool| {
-                                let id = id;
-                                let e_id = e_id;
-                                spawn_local(async move {
-                                    td_list.set(td_list.get().set_task_state(id, e_id, done));
-                                    let args = serde_wasm_bindgen::to_value(&serde_json::json!({
-                                        "td": id,
-                                        "exercice": e_id,
-                                        "state": done
-                                    }))
-                                    .expect("Failed to serialize arguments");
-                                    invoke("set_task_state", args).await;
-                                })
-                            }
                         />
                     }}).collect::<Vec<_>>()
             }
@@ -225,26 +203,13 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
 
             <SubCollapse title="Niveau 2".to_string()>
                 {lvl2_data.iter().map(|(e_id, done)| {
-                    let id = id;
+                    // let id = id;
                     let e_id = *e_id;
                     view! {
                         <CheckboxWithLabel
-                            label={format!("{0}.{1}", id, e_id)}
+                            td_id=id
+                            exercice_id=e_id
                             checked=*done
-                            on_change=move |done: bool| {
-                                let id = id;
-                                let e_id = e_id;
-                                spawn_local(async move {
-                                    td_list.set(td_list.get().set_task_state(id, e_id, done));
-                                    let args = serde_wasm_bindgen::to_value(&serde_json::json!({
-                                        "td": id,
-                                        "exercice": e_id,
-                                        "state": done
-                                    }))
-                                    .expect("Failed to serialize arguments");
-                                    invoke("set_task_state", args).await;
-                                })
-                            }
                         />
                     }}).collect::<Vec<_>>()
                 }
@@ -252,26 +217,13 @@ pub fn TdDisplay(td: TD) -> impl IntoView {
 
             <SubCollapse title="Niveau 3".to_string()>
                 {lvl3_data.iter().map(|(e_id, done)| {
-                    let id = id;
+                    // let id = id;
                     let e_id = *e_id;
                     view! {
                         <CheckboxWithLabel
-                            label={format!("{0}.{1}", id, e_id)}
+                            td_id=id
+                            exercice_id=e_id
                             checked=*done
-                            on_change=move |done: bool| {
-                                let id = id;
-                                let e_id = e_id;
-                                spawn_local(async move {
-                                    td_list.set(td_list.get().set_task_state(id, e_id, done));
-                                    let args = serde_wasm_bindgen::to_value(&serde_json::json!({
-                                        "td": id,
-                                        "exercice": e_id,
-                                        "state": done
-                                    }))
-                                    .expect("Failed to serialize arguments");
-                                    invoke("set_task_state", args).await;
-                                })
-                            }
                         />
                     }}).collect::<Vec<_>>()
                 }
