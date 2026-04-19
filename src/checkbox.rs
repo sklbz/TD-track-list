@@ -1,9 +1,18 @@
+use std::collections::HashMap;
+
 use leptos::prelude::*;
 use leptos::task::spawn_local;
 
 use crate::td::TDList;
 
-use super::invoke;
+use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::JsValue;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"])]
+    async fn invoke(cmd: &str, args: JsValue) -> JsValue;
+}
 
 #[component]
 pub fn CheckboxWithLabel(td_id: u32, exercice_id: u32, checked: bool) -> impl IntoView {
@@ -24,19 +33,7 @@ pub fn CheckboxWithLabel(td_id: u32, exercice_id: u32, checked: bool) -> impl In
         })
     };
 
-    let title = Resource::new(
-        move || (td_id, exercice_id), // dependency
-        move |(td_id, exercice_id)| async move {
-            let args = serde_wasm_bindgen::to_value(&serde_json::json!({
-                "td_id": td_id,
-                "exercice_id": exercice_id
-            }))
-            .expect("Failed to serialize arguments");
-
-            let result = invoke("get_title", args).await;
-            result.as_string().unwrap_or_default()
-        },
-    );
+    let titles = use_context::<RwSignal<HashMap<(u32, u32), String>>>().unwrap();
 
     view! {
         <div class="checkbox-container">
@@ -49,11 +46,12 @@ pub fn CheckboxWithLabel(td_id: u32, exercice_id: u32, checked: bool) -> impl In
                 class="checkbox"/>
             <span class="checkbox-label text-xs">
             {move || {
-                    match title.get() {
-                        Some(s) => format!("{}.{} {}", td_id, exercice_id, s),
-                        None => format!("{}.{} ...", td_id, exercice_id), // loading
+                let map = titles.get();
+                match map.get(&(td_id, exercice_id)) {
+                    Some(s) if !s.is_empty() => format!("{}.{} {}", td_id, exercice_id, s),
+                    _ => format!("{}.{}", td_id, exercice_id),
                     }
-                }}
+            }}
             </span>
         </div>
     }

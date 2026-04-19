@@ -1,5 +1,6 @@
 use crate::commands::get_td_list_json;
 use crate::commands::set_task_state;
+use crate::title_commands::get_all_titles;
 use crate::title_commands::get_title;
 use tauri::Builder;
 use tauri::{generate_context, generate_handler, Manager};
@@ -26,6 +27,7 @@ pub fn run() {
         .invoke_handler(generate_handler![
             get_td_list_json,
             set_task_state,
+            get_all_titles,
             get_title
         ])
         .run(generate_context!())
