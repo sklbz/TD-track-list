@@ -13,26 +13,6 @@ pub fn get_task_state(_td: u32, _exercice: u32) {
 
 #[tauri::command]
 pub fn get_td_list_json() -> String {
-    /* let td = TD {
-        id: 16,
-        name: "Continuité".to_string(),
-        lvl1: vec![TDExercice {
-            id: 1,
-            lvl: Lvl1,
-            done: false,
-        }],
-        lvl2: vec![TDExercice {
-            id: 2,
-            lvl: Lvl2,
-            done: false,
-        }],
-        lvl3: vec![TDExercice {
-            id: 3,
-            lvl: Lvl3,
-            done: false,
-        }],
-    }; */
-
     td_setup();
 
     let td_list = get_td_list();
@@ -86,7 +66,18 @@ fn td_setup() {
         19,
         "Equations différentielles linéaires".to_string(),
         (6, 15, 19, 23, 32, 34),
-    ); */
+    );
+    new_td(
+        20,
+        "Polynômes".to_string(),
+        (10, 27, 32, 37, 53, 67),
+    );
+    new_td(
+        21,
+        "Fractions rationelles".to_string(),
+        (4, 14, 18, 22, 28, 32),
+    );
+    */
 }
 
 #[tauri::command]
