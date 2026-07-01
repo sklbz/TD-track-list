@@ -77,6 +77,24 @@ fn td_setup() {
         "Fractions rationelles".to_string(),
         (4, 14, 18, 22, 28, 32),
     );
+    new_td(22, "Matrices".to_string(), (11, 21, 25, 34, 46, 53));
+    new_td(23, "Algèbre linéaire".to_string(), (9, 18, 25, 32, 47, 55));
+    new_td(24, "Déterminants".to_string(), (5, 14, 16, 26, 38, 41));
+    new_td(
+        25,
+        "Espaces euclidiens".to_string(),
+        (7, 17, 22, 35, 44, 52),
+    );
+    new_td(
+        26,
+        "Calcul différentiel, familles sommables".to_string(),
+        (1, 1, 1, 1, 1, 1),
+    );
+    new_td(
+        27,
+        "Probabilités, sommes de Riemann".to_string(),
+        (1, 1, 1, 1, 1, 1),
+    );
     */
 }
 
