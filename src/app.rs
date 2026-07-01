@@ -49,6 +49,6 @@ pub fn App() -> impl IntoView {
         <main>
             { move || view!{ <TdList list=td_list.get()/>} }
         </main>
-        {move || view!{ <ProgressBar percentage=td_list.get().proportion() />}}
+        { move || view!{ <ProgressBar percentage=td_list.get().proportion() score=td_list.get().get_score() />}}
     }
 }
